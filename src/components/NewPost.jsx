@@ -1,34 +1,51 @@
 import React , {useState} from 'react'
 
-function NewPost() {
-    const [body,setBody] = useState('');
-    const [author,setAuthor] = useState('');
+function NewPost({posts,onChangePosts}) {
+    const [entredBody,setBody] = useState('');
+    const [entredAuthor,setAuthor] = useState('');
 
-   const HandleChange =(e)=>{
+   const HandleChangeBody =(e)=>{
     setBody(e.target.value)
   }
 
-  /*
-   setAuthor = (e) => {
-    console.log(e.target.value)
+  const handleChangeName = (e) => {
+    setAuthor(e.target.value)
   }
-  */
+
+  const submitHandler = (e) => {
+    e.preventDefault() ;
+    const DataPost = {
+      body : entredBody,
+      author:entredAuthor
+    };
+    onChangePosts(DataPost)
+  }
+
   return (
-    <form>
+    <div>
+    <form onSubmit={submitHandler}>
       <p>
             <label htmlFor="body"></label>
-            <textarea id="body" required rows={3} onChange={HandleChange}/>
+            <textarea id="body" required rows={3} onChange={HandleChangeBody}/>
       </p>
-      <p>{body}</p>
       <p>
-            <label htmlFor='name'></label>
-            <textarea type="text" id="name"  onChange={setAuthor} required/>
+            <label htmlFor='author'></label>
+            <textarea type="text" id="author"  onChange={handleChangeName} required/>
       </p>
       <div>
          <button>Cancel</button>
          <button>Submit</button>
       </div>
     </form>
+    {posts.map(item => {
+      return(
+      <ul key={Math.random()}>
+        <li>{item.body}</li>
+        <li>{item.author}</li>
+      </ul>
+      );
+    })}
+    </div>
   );
 }
 

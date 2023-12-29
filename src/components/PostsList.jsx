@@ -1,28 +1,21 @@
-import React from 'react'
-import Post from './Post'
+import React , {useState} from 'react'
 import NewPost from './NewPost'
 
-function PostsList({postCount,showPanel}) {
+function PostsList({showPanel}) {
 
+  const [posts , setPost] = useState([]);
+  const AddPost = (postData) => {
+    setPost((existingPosts)=>[postData,...existingPosts])
+  }
 
-    const renderPosts = () => {
-        const posts = [];
-        for (let i = 0; i < postCount; i++) {
-          posts.push(<NewPost key={i} />);
-        }
-        return posts;
-      };
-    
   return (
     <> 
         <button style={{backgroundColor:'red'}}>Toggle</button>
-        {showPanel && renderPosts()}
-    
-      <Post author="Zakaria" body="hello world!"/>
-      <Post author="El mahdi" body="Test"/>
+        {showPanel && <NewPost posts={posts} onChangePosts={AddPost}/>}
+        {posts.length === 0 && <p>No post yet</p>}
     
     </>
-  )
+  );
 }
 
 export default PostsList
